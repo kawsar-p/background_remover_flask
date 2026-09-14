@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Background Remover</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="Logo">
+    <span>Background Remover</span>
+  </a>
+  <a class="navbtn" href="#editor">Get started <b>→</b></a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="badge">✦ &nbsp; AI POWERED</div>
+  <h1>Remove backgrounds<br><strong>with one click.</strong></h1>
+  <p>Upload an image and let AI create a clean transparent cutout automatically.</p>
+
+  <form class="editor" id="editor" action="{{ url_for('process') }}" method="post" enctype="multipart/form-data">
+    {% with messages=get_flashed_messages() %}
+      {% if messages %}<div class="alert">⚠ {{ messages[0] }}</div>{% endif %}
+    {% endwith %}
+
+    <label class="upload" id="drop">
+      <input id="image" name="image" type="file" accept=".png,.jpg,.jpeg,.webp" required>
+      <div class="upload-icon">↑</div>
+      <b>Drop your image here</b>
+      <span>or <em>browse files</em></span>
+      <small>PNG · JPG · JPEG · WEBP</small>
+    </label>
+
+    <div class="selected hidden" id="selected">
+      <img id="preview" alt="">
+      <div>
+        <small>READY</small>
+        <b id="filename"></b>
+        <span id="meta"></span>
+      </div>
+      <button type="button" id="clear">×</button>
+    </div>
+
+    <div class="engine">
+      <div class="spark">✦</div>
+      <div>
+        <b>Automatic AI removal</b>
+        <span>No manual settings needed.</span>
+      </div>
+      <strong>AUTO</strong>
+    </div>
+
+    <button class="process" id="go" type="submit">
+      Remove background <span>→</span>
+    </button>
+
+    <div class="checks">
+      <span>✓ Original size</span>
+      <span>✓ Transparent PNG</span>
+    </div>
+  </form>
+</section>
+</main>
+
+<footer>
+  <div class="footbrand">
+    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="">
+    <b>Background Remover</b>
+  </div>
+  <span>AI cutouts, kept simple.</span>
+</footer>
+
+<script>
+const input=document.getElementById('image');
+const drop=document.getElementById('drop');
+const selected=document.getElementById('selected');
+const preview=document.getElementById('preview');
+const filename=document.getElementById('filename');
+const meta=document.getElementById('meta');
+const clear=document.getElementById('clear');
+const form=document.getElementById('editor');
+const go=document.getElementById('go');
+
+function showFile(file){
+  if(!file) return;
+  if(!['image/png','image/jpeg','image/webp'].includes(file.type)){
+    alert('PNG, JPG, JPEG or WEBP only.');
+    input.value='';
+    return;
+  }
+  const url=URL.createObjectURL(file);
+  preview.src=url;
+  preview.onload=()=>{
+    filename.textContent=file.name;
+    meta.textContent=`${preview.naturalWidth} × ${preview.naturalHeight}px`;
+    selected.classList.remove('hidden');
+    drop.classList.add('compact');
+    URL.revokeObjectURL(url);
+  };
+}
+input.onchange=()=>showFile(input.files[0]);
+clear.onclick=()=>{
+  input.value='';
+  selected.classList.add('hidden');
+  drop.classList.remove('compact');
+};
+['dragenter','dragover'].forEach(e=>drop.addEventListener(e,ev=>{
+  ev.preventDefault(); drop.classList.add('drag');
+}));
+['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{
+  ev.preventDefault(); drop.classList.remove('drag');
+}));
+drop.addEventListener('drop',ev=>{
+  const file=ev.dataTransfer.files[0];
+  if(file){ input.files=ev.dataTransfer.files; showFile(file); }
+});
+window.addEventListener('load',()=>window.scrollTo(0,0));
+form.onsubmit=()=>{
+  go.disabled=true;
+  go.firstChild.textContent='AI is removing the background… ';
+};
+</script>
+</body>
+</html>

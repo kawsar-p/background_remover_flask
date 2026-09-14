@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Background Remover — Result</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="Logo">
+    <span>Background Remover</span>
+  </a>
+  <a class="navbtn" href="/">New image <b>+</b></a>
+</header>
+
+<main>
+<section class="result">
+  <div class="badge">✓ &nbsp; DONE</div>
+  <h1>Your cutout is <strong>ready.</strong></h1>
+  <p>Background removed automatically. Your original dimensions are preserved.</p>
+
+  <div class="result-card">
+    <div class="result-head">
+      <div><b>Transparent preview</b><small>{{ width }} × {{ height }} px</small></div>
+      <span>PNG</span>
+    </div>
+    <div class="canvas">
+      <img src="{{ url_for('download', name=output_name) }}" alt="Background removed result">
+    </div>
+    <a class="process download" href="{{ url_for('download', name=output_name) }}">Download PNG <span>↓</span></a>
+    <a class="again" href="/">← Remove another background</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footbrand"><img src="{{ url_for('static', filename='logo-transparent.png') }}" alt=""><b>Background Remover</b></div>
+  <span>AI cutouts, kept simple.</span>
+</footer>
+</body>
+</html>
