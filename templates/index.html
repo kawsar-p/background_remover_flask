@@ -1,127 +1,423 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Background Remover</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080d16">
+  <title>Background Remover Studio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-<header class="nav">
-  <a class="brand" href="/">
-    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="Logo">
-    <span>Background Remover</span>
-  </a>
-  <a class="navbtn" href="#editor">Get started <b>→</b></a>
-</header>
+<body class="studio-page">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
 
-<main>
-<section class="hero">
-  <div class="badge">✦ &nbsp; AI POWERED</div>
-  <h1>Remove backgrounds<br><strong>with one click.</strong></h1>
-  <p>Upload an image and let AI create a clean transparent cutout automatically.</p>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Background Remover Studio home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="brand-copy"><b>PIXEL<span>FORGE</span></b><small>BACKGROUND STUDIO</small></span>
+    </a>
+    <div class="topbar-right">
+      <span class="version"><i></i> STUDIO 2.0</span>
+      <a class="top-action" href="#workspace">Open studio <span>↗</span></a>
+    </div>
+  </header>
 
-  <form class="editor" id="editor" action="{{ url_for('process') }}" method="post" enctype="multipart/form-data">
-    {% with messages=get_flashed_messages() %}
-      {% if messages %}<div class="alert">⚠ {{ messages[0] }}</div>{% endif %}
-    {% endwith %}
-
-    <label class="upload" id="drop">
-      <input id="image" name="image" type="file" accept=".png,.jpg,.jpeg,.webp" required>
-      <div class="upload-icon">↑</div>
-      <b>Drop your image here</b>
-      <span>or <em>browse files</em></span>
-      <small>PNG · JPG · JPEG · WEBP</small>
-    </label>
-
-    <div class="selected hidden" id="selected">
-      <img id="preview" alt="">
-      <div>
-        <small>READY</small>
-        <b id="filename"></b>
-        <span id="meta"></span>
+  <main class="page-wrap">
+    <section class="intro-grid">
+      <div class="intro-copy">
+        <div class="eyebrow"><span class="eyebrow-star">✦</span> AI IMAGE WORKSPACE <span class="eyebrow-line"></span></div>
+        <h1>Make every<br>pixel <span class="gradient-text">count.</span></h1>
+        <p class="intro-lede">Clean cutouts. Custom backgrounds. Precise print crops.<br class="desktop-break"> One polished workspace, with your image quality kept intact.</p>
+        <div class="feature-row">
+          <div class="feature-chip"><span class="feature-icon green-icon">✦</span><span><b>AI cutout</b><small>One-click removal</small></span></div>
+          <div class="feature-chip"><span class="feature-icon purple-icon">◐</span><span><b>Color studio</b><small>Transparent or solid</small></span></div>
+          <div class="feature-chip"><span class="feature-icon green-icon">⌗</span><span><b>Inch crop</b><small>No resampling</small></span></div>
+        </div>
+        <div class="quality-note"><span class="quality-check">✓</span><span><b>Pixel-preserving workflow</b><small>Cropping removes pixels outside the frame. Pixels inside the crop are not stretched, resized, or upscaled.</small></span></div>
       </div>
-      <button type="button" id="clear">×</button>
-    </div>
 
-    <div class="engine">
-      <div class="spark">✦</div>
-      <div>
-        <b>Automatic AI removal</b>
-        <span>No manual settings needed.</span>
+      <div class="visual-scene" aria-label="Decorative 3D image studio illustration">
+        <div class="scene-orb orb-green"></div>
+        <div class="scene-orb orb-purple"></div>
+        <div class="scene-ring ring-one"></div>
+        <div class="scene-ring ring-two"></div>
+        <div class="floating-tag tag-top"><span class="tag-dot"></span> EDGE DETECTION <b>ON</b></div>
+        <div class="floating-tag tag-side"><span class="mini-spark">✦</span> Clean edges</div>
+        <div class="preview-stack">
+          <div class="stack-back stack-back-two"></div>
+          <div class="stack-back stack-back-one"></div>
+          <div class="showcase-card">
+            <div class="showcase-top"><span class="window-dots"><i></i><i></i><i></i></span><span class="showcase-label">LIVE PREVIEW</span><span class="preview-status">●</span></div>
+            <div class="showcase-canvas">
+              <div class="checker-grid"></div>
+              <div class="demo-subject">
+                <div class="demo-hair"></div><div class="demo-head"></div><div class="demo-neck"></div>
+                <div class="demo-body"></div><div class="demo-arm demo-arm-left"></div><div class="demo-arm demo-arm-right"></div>
+                <div class="demo-jacket"></div>
+              </div>
+              <div class="scan-line"></div>
+              <span class="scan-corner corner-tl"></span><span class="scan-corner corner-br"></span>
+              <div class="float-caption"><span>✦</span> BACKGROUND REMOVED</div>
+            </div>
+            <div class="showcase-footer"><span><i class="status-dot"></i> Subject isolated</span><b>PNG · RGBA</b></div>
+          </div>
+        </div>
+        <div class="floating-size"><span class="size-icon">⌗</span><span><small>PRECISION CROP</small><b>2 × 2 <em>in</em></b></span><span class="size-check">✓</span></div>
+        <div class="scene-caption">A little precision. A lot of polish.</div>
       </div>
-      <strong>AUTO</strong>
-    </div>
+    </section>
 
-    <button class="process" id="go" type="submit">
-      Remove background <span>→</span>
-    </button>
+    <section class="workspace" id="workspace">
+      <div class="workspace-heading">
+        <div><span class="section-kicker">YOUR CREATIVE DESK</span><h2>Image <span>workspace</span></h2></div>
+        <div class="secure-pill"><span>✧</span> Runs on your local app</div>
+      </div>
 
-    <div class="checks">
-      <span>✓ Original size</span>
-      <span>✓ Transparent PNG</span>
-    </div>
-  </form>
-</section>
-</main>
+      <form class="editor-card" id="editor" action="{{ url_for('process') }}" method="post" enctype="multipart/form-data">
+        {% with messages=get_flashed_messages() %}
+          {% if messages %}<div class="alert" role="alert"><span>!</span><div>{{ messages[0] }}</div><button type="button" class="alert-close" aria-label="Dismiss" onclick="this.parentElement.remove()">×</button></div>{% endif %}
+        {% endwith %}
 
-<footer>
-  <div class="footbrand">
-    <img src="{{ url_for('static', filename='logo-transparent.png') }}" alt="">
-    <b>Background Remover</b>
-  </div>
-  <span>AI cutouts, kept simple.</span>
-</footer>
+        <div class="editor-grid">
+          <div class="left-column">
+            <div class="panel-title"><span class="step-number">01</span><div><h3>Choose your image</h3><p>Start with a photo, portrait or product shot.</p></div></div>
+            <label class="upload-zone" id="drop" for="image">
+              <input id="image" name="image" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" required>
+              <span class="upload-art"><span class="upload-art-inner">↑</span><span class="upload-art-orbit orbit-a"></span><span class="upload-art-orbit orbit-b"></span></span>
+              <b>Drop your image here</b>
+              <span class="upload-sub">or <em>browse files</em> to upload</span>
+              <span class="format-pills"><i>PNG</i><i>JPG</i><i>WEBP</i><i>MAX 25 MB</i></span>
+            </label>
+
+            <div class="selected-file hidden" id="selected">
+              <img id="preview" alt="Selected image preview">
+              <div class="selected-meta"><small>IMAGE READY</small><b id="filename"></b><span id="meta"></span></div>
+              <button type="button" class="clear-file" id="clear" aria-label="Remove selected image">×</button>
+            </div>
+
+            <div class="crop-panel hidden" id="crop-panel">
+              <div class="panel-title panel-title-small"><span class="step-number">02</span><div><h3>Precision crop <span class="optional">OPTIONAL</span></h3><p>Set a print size in inches, then drag the frame.</p></div></div>
+              <label class="switch-row" for="crop_enabled"><span><b>Enable inch-based crop</b><small>Creates an exact pixel crop at your selected DPI.</small></span><span class="switch"><input id="crop_enabled" name="crop_enabled" type="checkbox"><span class="switch-track"></span></span></label>
+              <div class="crop-fields" id="crop-fields">
+                <label class="field-label">Width <span>in</span><input id="crop_width_in" name="crop_width_in" type="number" min="0.1" max="40" step="0.1" value="2" disabled></label>
+                <span class="dimension-x">×</span>
+                <label class="field-label">Height <span>in</span><input id="crop_height_in" name="crop_height_in" type="number" min="0.1" max="40" step="0.1" value="2" disabled></label>
+                <label class="field-label dpi-field">Print density <span>DPI</span><select name="dpi" id="dpi" disabled><option value="72">72</option><option value="96">96</option><option value="150">150</option><option value="200">200</option><option value="300" selected>300</option><option value="600">600</option></select></label>
+              </div>
+              <div class="crop-viewport" id="crop-viewport">
+                <div class="crop-stage" id="crop-stage">
+                  <img id="crop-preview" alt="Crop preview">
+                  <div class="crop-box hidden" id="crop-box" role="img" aria-label="Crop frame; drag to reposition"><span class="crop-corner crop-tl"></span><span class="crop-corner crop-tr"></span><span class="crop-corner crop-bl"></span><span class="crop-corner crop-br"></span><span class="crop-center">DRAG TO POSITION</span></div>
+                </div>
+              </div>
+              <div class="crop-status" id="crop-status">Upload an image to preview the crop.</div>
+              <input type="hidden" id="crop_x" name="crop_x" value="0">
+              <input type="hidden" id="crop_y" name="crop_y" value="0">
+              <div class="resolution-note"><span>◎</span><span><b>No resize / no upscaling</b><small>At 300 DPI, a 2 × 2 in crop uses exactly 600 × 600 source pixels. The crop is disabled if your image does not have enough pixels.</small></span></div>
+            </div>
+          </div>
+
+          <aside class="right-column">
+            <div class="panel-title"><span class="step-number">03</span><div><h3>Style your background</h3><p>Choose transparent or give it a new color.</p></div></div>
+            <div class="background-options">
+              <label class="background-option selected-option" id="transparent-option"><input type="radio" name="background_mode" value="transparent" checked><span class="option-check">✓</span><span class="option-preview transparent-preview"><i></i></span><span class="option-copy"><b>Transparent</b><small>Keep alpha channel</small></span></label>
+              <label class="background-option" id="color-option"><input type="radio" name="background_mode" value="color"><span class="option-check">✓</span><span class="option-preview color-preview" id="color-preview"></span><span class="option-copy"><b>Solid color</b><small>Ready for documents</small></span></label>
+            </div>
+
+            <div class="color-picker-card" id="color-picker-card">
+              <div class="color-picker-head"><span><b>Background color</b><small>Pick a preset or custom color.</small></span><label class="color-swatch-input" for="background_color"><input type="color" id="background_color" name="background_color" value="#a6ff38" aria-label="Choose background color"><span id="color-hex">#A6FF38</span><b>↗</b></label></div>
+              <div class="swatches" aria-label="Suggested background colors">
+                <button type="button" class="swatch swatch-white" data-color="#ffffff" title="White"></button>
+                <button type="button" class="swatch" data-color="#dff1ff" style="--swatch:#dff1ff" title="Ice blue"></button>
+                <button type="button" class="swatch" data-color="#00c853" style="--swatch:#00c853" title="Green"></button>
+                <button type="button" class="swatch" data-color="#2264ff" style="--swatch:#2264ff" title="Blue"></button>
+                <button type="button" class="swatch" data-color="#a78bfa" style="--swatch:#a78bfa" title="Purple"></button>
+                <button type="button" class="swatch" data-color="#a6ff38" style="--swatch:#a6ff38" title="Neon green"></button>
+                <button type="button" class="swatch" data-color="#111827" style="--swatch:#111827" title="Charcoal"></button>
+              </div>
+              <p class="color-tip"><span>✦</span> Solid color is applied behind the subject and exported as an opaque PNG.</p>
+            </div>
+
+            <div class="output-card">
+              <div class="output-card-head"><span class="output-icon">↗</span><div><b>Output quality</b><small>Original pixel dimensions retained</small></div><span class="quality-live">HIGH</span></div>
+              <div class="output-stats"><div><small>FORMAT</small><b>PNG</b></div><div><small>RESIZE</small><b>Off</b></div><div><small>UPSCALE</small><b>Never</b></div></div>
+            </div>
+
+            <button class="process-button" id="go" type="submit"><span class="button-spark">✦</span><span class="button-copy"><b>Remove background</b><small>Generate your clean cutout</small></span><span class="button-arrow">↗</span></button>
+            <p class="privacy-note"><span>◈</span> Images are processed by this local Flask app.</p>
+          </aside>
+        </div>
+      </form>
+      <div class="under-workspace"><span><i></i> READY WHEN YOU ARE</span><span>DESIGNED FOR CLEAN CUTOUTS <b>✦</b></span></div>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="footer-brand" href="/"><span class="footer-mark">✦</span> PIXELFORGE</a><span>Precision edits. Original pixels.</span><span class="footer-version">STUDIO 2.0.0</span></footer>
 
 <script>
-const input=document.getElementById('image');
-const drop=document.getElementById('drop');
-const selected=document.getElementById('selected');
-const preview=document.getElementById('preview');
-const filename=document.getElementById('filename');
-const meta=document.getElementById('meta');
-const clear=document.getElementById('clear');
-const form=document.getElementById('editor');
-const go=document.getElementById('go');
+(() => {
+  const input = document.getElementById('image');
+  const drop = document.getElementById('drop');
+  const selected = document.getElementById('selected');
+  const preview = document.getElementById('preview');
+  const cropPreview = document.getElementById('crop-preview');
+  const filename = document.getElementById('filename');
+  const meta = document.getElementById('meta');
+  const clear = document.getElementById('clear');
+  const form = document.getElementById('editor');
+  const go = document.getElementById('go');
+  const cropPanel = document.getElementById('crop-panel');
+  const cropEnabled = document.getElementById('crop_enabled');
+  const cropWidthInput = document.getElementById('crop_width_in');
+  const cropHeightInput = document.getElementById('crop_height_in');
+  const dpiInput = document.getElementById('dpi');
+  const viewport = document.getElementById('crop-viewport');
+  const stage = document.getElementById('crop-stage');
+  const cropBox = document.getElementById('crop-box');
+  const cropStatus = document.getElementById('crop-status');
+  const cropXInput = document.getElementById('crop_x');
+  const cropYInput = document.getElementById('crop_y');
+  const colorInput = document.getElementById('background_color');
+  const colorHex = document.getElementById('color-hex');
+  const colorPreview = document.getElementById('color-preview');
+  const colorOption = document.getElementById('color-option');
+  const transparentOption = document.getElementById('transparent-option');
+  let currentUrl = null;
+  let naturalWidth = 0;
+  let naturalHeight = 0;
+  let displayWidth = 0;
+  let displayHeight = 0;
+  let cropLeft = 0;
+  let cropTop = 0;
+  let cropBoxWidth = 0;
+  let cropBoxHeight = 0;
+  let cropKey = '';
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragLeft = 0;
+  let dragTop = 0;
+  let cropValid = true;
 
-function showFile(file){
-  if(!file) return;
-  if(!['image/png','image/jpeg','image/webp'].includes(file.type)){
-    alert('PNG, JPG, JPEG or WEBP only.');
-    input.value='';
-    return;
+  const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
+
+  function cropDimensions() {
+    const widthIn = Number(cropWidthInput.value);
+    const heightIn = Number(cropHeightInput.value);
+    const dpi = Number(dpiInput.value);
+    if (!(widthIn >= 0.1 && widthIn <= 40 && heightIn >= 0.1 && heightIn <= 40 && dpi > 0)) return null;
+    return { widthIn, heightIn, dpi, widthPx: Math.round(widthIn * dpi), heightPx: Math.round(heightIn * dpi) };
   }
-  const url=URL.createObjectURL(file);
-  preview.src=url;
-  preview.onload=()=>{
-    filename.textContent=file.name;
-    meta.textContent=`${preview.naturalWidth} × ${preview.naturalHeight}px`;
-    selected.classList.remove('hidden');
-    drop.classList.add('compact');
-    URL.revokeObjectURL(url);
+
+  function positionCropBox(center = false) {
+    if (!naturalWidth || !naturalHeight) return;
+    if (!cropEnabled.checked) {
+      cropBox.classList.add('hidden');
+      cropStatus.textContent = 'Original image size will be kept. Enable the crop to choose a print size.';
+      cropStatus.classList.remove('error');
+      cropValid = true;
+      go.disabled = false;
+      return;
+    }
+
+    const dims = cropDimensions();
+    if (!dims) {
+      cropBox.classList.add('hidden');
+      cropStatus.textContent = 'Enter a valid width and height between 0.1 and 40 inches.';
+      cropStatus.classList.add('error');
+      cropValid = false;
+      go.disabled = true;
+      return;
+    }
+    if (dims.widthPx > naturalWidth || dims.heightPx > naturalHeight) {
+      cropBox.classList.add('hidden');
+      cropStatus.textContent = `This crop needs ${dims.widthPx} × ${dims.heightPx} px, but the image has ${naturalWidth} × ${naturalHeight} px. Choose a lower DPI or smaller inches; upscaling is not allowed.`;
+      cropStatus.classList.add('error');
+      cropValid = false;
+      go.disabled = true;
+      cropXInput.value = '0';
+      cropYInput.value = '0';
+      return;
+    }
+
+    const key = `${dims.widthPx}x${dims.heightPx}:${naturalWidth}x${naturalHeight}:${displayWidth}x${displayHeight}`;
+    const xScale = displayWidth / naturalWidth;
+    const yScale = displayHeight / naturalHeight;
+    cropBoxWidth = dims.widthPx * xScale;
+    cropBoxHeight = dims.heightPx * yScale;
+    if (center || key !== cropKey) {
+      cropLeft = (displayWidth - cropBoxWidth) / 2;
+      cropTop = (displayHeight - cropBoxHeight) / 2;
+      cropKey = key;
+    }
+    cropLeft = clamp(cropLeft, 0, displayWidth - cropBoxWidth);
+    cropTop = clamp(cropTop, 0, displayHeight - cropBoxHeight);
+    cropBox.style.width = `${cropBoxWidth}px`;
+    cropBox.style.height = `${cropBoxHeight}px`;
+    cropBox.style.left = `${cropLeft}px`;
+    cropBox.style.top = `${cropTop}px`;
+    cropBox.classList.remove('hidden');
+    // Avoid locale-dependent formatting in the status text.
+    cropStatus.textContent = `Crop: ${dims.widthPx} × ${dims.heightPx} px · ${dims.widthIn} × ${dims.heightIn} in at ${dims.dpi} DPI. Drag the frame to reposition.`;
+    cropStatus.classList.remove('error');
+    cropValid = true;
+    go.disabled = false;
+    cropXInput.value = String(Math.round(cropLeft * naturalWidth / displayWidth));
+    cropYInput.value = String(Math.round(cropTop * naturalHeight / displayHeight));
+  }
+
+  function layoutCropPreview(reset = false) {
+    if (!naturalWidth || !naturalHeight) return;
+    const availableWidth = Math.max(180, Math.min(viewport.clientWidth - 28, 640));
+    const availableHeight = 330;
+    const scale = Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight, 1);
+    displayWidth = Math.max(1, Math.round(naturalWidth * scale));
+    displayHeight = Math.max(1, Math.round(naturalHeight * scale));
+    cropPreview.style.width = `${displayWidth}px`;
+    cropPreview.style.height = `${displayHeight}px`;
+    stage.style.width = `${displayWidth}px`;
+    stage.style.height = `${displayHeight}px`;
+    positionCropBox(reset);
+  }
+
+  function showFile(file) {
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      alert('Please choose a PNG, JPG, JPEG or WEBP image.');
+      input.value = '';
+      return;
+    }
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = URL.createObjectURL(file);
+    preview.onload = () => {
+      filename.textContent = file.name;
+      meta.textContent = `${preview.naturalWidth} × ${preview.naturalHeight} px · ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+      naturalWidth = preview.naturalWidth;
+      naturalHeight = preview.naturalHeight;
+      selected.classList.remove('hidden');
+      drop.classList.add('compact');
+      cropPanel.classList.remove('hidden');
+      cropKey = '';
+      layoutCropPreview(true);
+    };
+    preview.onerror = () => {
+      alert('This image could not be previewed. Try another file.');
+      input.value = '';
+    };
+    preview.src = currentUrl;
+    cropPreview.src = currentUrl;
+  }
+
+  input.addEventListener('change', () => showFile(input.files[0]));
+  clear.addEventListener('click', () => {
+    input.value = '';
+    selected.classList.add('hidden');
+    drop.classList.remove('compact');
+    cropPanel.classList.add('hidden');
+    preview.removeAttribute('src');
+    cropPreview.removeAttribute('src');
+    naturalWidth = naturalHeight = displayWidth = displayHeight = 0;
+    cropBox.classList.add('hidden');
+    cropEnabled.checked = false;
+    cropWidthInput.disabled = cropHeightInput.disabled = dpiInput.disabled = true;
+    cropStatus.textContent = 'Upload an image to preview the crop.';
+    cropValid = true;
+    go.disabled = false;
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = null;
+  });
+
+  ['dragenter', 'dragover'].forEach(eventName => drop.addEventListener(eventName, event => {
+    event.preventDefault();
+    drop.classList.add('drag');
+  }));
+  ['dragleave', 'drop'].forEach(eventName => drop.addEventListener(eventName, event => {
+    event.preventDefault();
+    drop.classList.remove('drag');
+  }));
+  drop.addEventListener('drop', event => {
+    const file = event.dataTransfer.files[0];
+    if (!file) return;
+    try { input.files = event.dataTransfer.files; } catch (_) { /* Browser may restrict assignment. */ }
+    showFile(file);
+  });
+
+  cropEnabled.addEventListener('change', () => {
+    cropWidthInput.disabled = cropHeightInput.disabled = dpiInput.disabled = !cropEnabled.checked;
+    positionCropBox(true);
+  });
+  [cropWidthInput, cropHeightInput, dpiInput].forEach(control => control.addEventListener('input', () => positionCropBox(true)));
+
+  cropBox.addEventListener('pointerdown', event => {
+    if (!cropEnabled.checked || !cropValid) return;
+    dragging = true;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    dragLeft = cropLeft;
+    dragTop = cropTop;
+    cropBox.classList.add('is-dragging');
+    cropBox.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  cropBox.addEventListener('pointermove', event => {
+    if (!dragging) return;
+    cropLeft = clamp(dragLeft + event.clientX - dragStartX, 0, displayWidth - cropBoxWidth);
+    cropTop = clamp(dragTop + event.clientY - dragStartY, 0, displayHeight - cropBoxHeight);
+    cropBox.style.left = `${cropLeft}px`;
+    cropBox.style.top = `${cropTop}px`;
+    cropXInput.value = String(Math.round(cropLeft * naturalWidth / displayWidth));
+    cropYInput.value = String(Math.round(cropTop * naturalHeight / displayHeight));
+  });
+  const finishDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    cropBox.classList.remove('is-dragging');
+    positionCropBox(false);
   };
-}
-input.onchange=()=>showFile(input.files[0]);
-clear.onclick=()=>{
-  input.value='';
-  selected.classList.add('hidden');
-  drop.classList.remove('compact');
-};
-['dragenter','dragover'].forEach(e=>drop.addEventListener(e,ev=>{
-  ev.preventDefault(); drop.classList.add('drag');
-}));
-['dragleave','drop'].forEach(e=>drop.addEventListener(e,ev=>{
-  ev.preventDefault(); drop.classList.remove('drag');
-}));
-drop.addEventListener('drop',ev=>{
-  const file=ev.dataTransfer.files[0];
-  if(file){ input.files=ev.dataTransfer.files; showFile(file); }
-});
-window.addEventListener('load',()=>window.scrollTo(0,0));
-form.onsubmit=()=>{
-  go.disabled=true;
-  go.firstChild.textContent='AI is removing the background… ';
-};
+  cropBox.addEventListener('pointerup', finishDrag);
+  cropBox.addEventListener('pointercancel', finishDrag);
+
+  function activateColorMode() {
+    document.querySelector('input[name="background_mode"][value="color"]').checked = true;
+    updateBackgroundChoice();
+  }
+  function updateBackgroundChoice() {
+    const mode = document.querySelector('input[name="background_mode"]:checked').value;
+    colorOption.classList.toggle('selected-option', mode === 'color');
+    transparentOption.classList.toggle('selected-option', mode === 'transparent');
+    colorPreview.style.background = colorInput.value;
+    colorHex.textContent = colorInput.value.toUpperCase();
+  }
+  document.querySelectorAll('input[name="background_mode"]').forEach(radio => radio.addEventListener('change', updateBackgroundChoice));
+  colorInput.addEventListener('input', () => { activateColorMode(); });
+  document.querySelectorAll('.swatch').forEach(button => button.addEventListener('click', () => {
+    colorInput.value = button.dataset.color;
+    activateColorMode();
+  }));
+
+  form.addEventListener('submit', event => {
+    if (cropEnabled.checked && !cropValid) {
+      event.preventDefault();
+      return;
+    }
+    if (cropEnabled.checked) {
+      const dims = cropDimensions();
+      if (!dims || !naturalWidth || !naturalHeight) {
+        event.preventDefault();
+        return;
+      }
+      cropXInput.value = String(Math.max(0, Math.min(Math.round(cropLeft * naturalWidth / displayWidth), naturalWidth - dims.widthPx)));
+      cropYInput.value = String(Math.max(0, Math.min(Math.round(cropTop * naturalHeight / displayHeight), naturalHeight - dims.heightPx)));
+    }
+    go.disabled = true;
+    go.classList.add('is-loading');
+    go.querySelector('.button-copy b').textContent = 'Removing background…';
+    go.querySelector('.button-copy small').textContent = 'AI is working on your image';
+  });
+
+  window.addEventListener('resize', () => layoutCropPreview(false));
+  updateBackgroundChoice();
+})();
 </script>
 </body>
 </html>
